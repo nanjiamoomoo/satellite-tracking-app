@@ -1,6 +1,15 @@
-import {Button} from "antd";
+import {Avatar, Button, Checkbox, List, Spin} from "antd";
+import satellite from "../assets/images/satellite.svg";
+import {useEffect} from "react";
 
-function SatelliteList() {
+//Display Satellites
+function SatelliteList(props) {
+    const {isLoading} = props;
+
+    const onChange = () => {
+
+    }
+
     return (
         <div className="sat-list-box">
             <div className="btn-container">
@@ -10,9 +19,32 @@ function SatelliteList() {
                 >Track on the map</Button>
             </div>
             <hr/>
-            <div>data</div>
-        </div>
+            {
+                isLoading ?
+                    <div className="spin-box">
+                        <Spin tip="Loading..." size="large"/>
+                    </div>
+                    :
+                    <List className="sat-list"
+                          itemLayout="horizontal"
+                          dataSource={props.satList}
+                          renderItem={item => {
+                              return (
+                                  <List.Item
+                                      actions={[<Checkbox onChange={onChange} dataInfo={item}/>]}
+                                  >
+                                      <List.Item.Meta
+                                          avatar={<Avatar src={satellite}/>}
+                                          title={<p>{item.satname}</p>}
+                                          description={`Launch Date: ${item.launchDate}`}
+                                      />
 
+                                  </List.Item>
+                              )}
+                          }
+                    />
+            }
+        </div>
     )
 }
 
