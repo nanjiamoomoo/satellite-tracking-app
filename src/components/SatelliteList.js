@@ -9,19 +9,19 @@ function SatelliteList(props) {
 
 
     const onChange = (e) => {
-        const { satelliteDataInfo, checked } = e.target;
+        const {satelliteDataInfo, checked} = e.target;
         const satelliteList = addOrRemove(satelliteDataInfo, checked, selected);
         setSelected(satelliteList);
 
     }
 
     const addOrRemove = (item, status, list) => {
-        const found = list.some( entry => entry.satid === item.satid);
+        const found = list.some(entry => entry.satid === item.satid);
         if (status && !found) {
             list = [...list, item];
         }
         if (!status && found) {
-            list = list.filter( entry => entry.satid !== item.satid)
+            list = list.filter(entry => entry.satid !== item.satid)
         }
         return list;
     }
@@ -35,7 +35,7 @@ function SatelliteList(props) {
             <div className="btn-container">
                 <Button
                     className="sat-list-btn"
-                    size="large"
+                    type="primary"
                     disabled={selected.length === 0}
                     onClick={onShowSatMap}
                 >Track on the map</Button>
@@ -63,7 +63,8 @@ function SatelliteList(props) {
                                       />
 
                                   </List.Item>
-                              )}
+                              )
+                          }
                           }
                     />
             }

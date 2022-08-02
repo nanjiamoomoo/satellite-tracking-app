@@ -9,12 +9,18 @@ import WorldMap from "./WorldMap";
 //1. get setting information from SatSetting component
 //2. acquire satellite data from n2yo.com
 //3. send the satellite data to SatelliteList component to display on the dashboard
+//4. select satellites displayed on the dashboard and track them in the world map
 function Main() {
     const SatSettingForm = useRef();
 
+    //satellites list to display on the dashboard
     const [satList, setSatList] = useState([]);
+    //settings acquired from SatSetting component based on user input
     const [settings, setSettings] = useState(null);
+    //loading the nearby satellites based on settings
     const [isLoading, setIsLoading] = useState(false);
+    //selected satellites to show on the world map
+    const [selectedList, setSelectedList] = useState([]);
 
     const showNearbySatellite = () => {
         //get setting info from SatSetting component
@@ -48,12 +54,8 @@ function Main() {
             })
     }
 
-    const showMap = () => {
-        console.log('show on the map');
-    }
-
-    const onChange = () => {
-
+    const showMap = (selected) => {
+        setSelectedList([...selectedList, selected]);
     }
 
     return (
@@ -70,7 +72,10 @@ function Main() {
                 />
             </Col>
             <Col span={16} className="right-side">
-                <WorldMap />
+                <WorldMap
+                    satData={selectedList}
+                    observerData={settings}
+                />
             </Col>
         </Row>
     )
