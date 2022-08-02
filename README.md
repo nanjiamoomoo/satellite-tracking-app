@@ -1,6 +1,28 @@
-# Getting Started with Create React App
+# Satellite-Track-App
 
+## **Project Description**
+A visualization dashboard that allows user to track satellites and display satellites path in a 2D world map.
+
+## **Framework**
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Components
+See image below for components structures. 
+![](src/assets/images/component-structure.png)
+
+**_`App.js`_** Parent component of Header, Footer and Main
+
+**_`Header.js`_** Top bar of the dashboard
+
+**_`Footer.js`_** Footer of the dashboard
+
+**_`Main.js`_** Parent component of SateSetting, SatelliteLite and WorldMap. Handles data communications between the three child components and acquire satellite data from n2yo.com
+
+**_`SatSetting`_** Collects user settings for searching nearby satellites
+
+**_`SatelliteList`_** Display the search results (satellites) on the dashboard
+
+**_`WorldMap`_** Show 2D world map on the dashboard and visualize selected satellites track in the 2D world map
 
 ## Available Scripts
 

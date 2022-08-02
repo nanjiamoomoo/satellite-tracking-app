@@ -2,7 +2,7 @@ import {Avatar, Button, Checkbox, List, Spin} from "antd";
 import satellite from "../assets/images/satellite.svg";
 import {useState} from "react";
 
-//Display Satellites
+//Display satellites on the dashboard
 function SatelliteList(props) {
     const {isLoading} = props;
     const [selected, setSelected] = useState([]);

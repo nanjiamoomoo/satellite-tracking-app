@@ -1,4 +1,4 @@
-import {Row, Col, Button, Spin, List, Checkbox, Avatar} from 'antd';
+import {Row, Col} from 'antd';
 import {SatSetting} from "./SatSetting";
 import SatelliteList from "./SatelliteList";
 import {useRef, useState} from "react";

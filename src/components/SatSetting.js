@@ -1,6 +1,7 @@
-import React, {useRef} from "react";
+import React from "react";
 import {Form, InputNumber, Button} from "antd";
 
+//collect user input setting information
 export const SatSetting = React.forwardRef( (props, ref) => {
 
     const formItemLayout = {

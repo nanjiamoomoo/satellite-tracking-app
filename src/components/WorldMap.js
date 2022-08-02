@@ -5,7 +5,7 @@ import {feature} from "topojson-client";
 import {geoKavrayskiy7} from 'd3-geo-projection';
 import {geoGraticule, geoPath} from 'd3-geo';
 import {select as d3Select} from 'd3-selection';
-import { timeFormat as d3TimeFormat } from "d3-time-format";
+import {timeFormat as d3TimeFormat} from "d3-time-format";
 import * as d3Scale from "d3-scale";
 import {schemeCategory10} from "d3-scale-chromatic";
 import {BASE_URL, SAT_API_KEY, SATELLITE_POSITION_URL, WORLD_MAP_URL} from "../constants";
@@ -14,11 +14,11 @@ const width = 960;
 const height = 600;
 const color = d3Scale.scaleOrdinal(schemeCategory10);
 
-//WorldMap component used D3 library to show world map on the dashboard
+//WorldMap component used D3 library to show world map on the dashboard and display the satellites track on the world map using the satellites positions acquired from the server
 function WorldMap(props) {
     const refMap = useRef();
     const refTrack = useRef();
-    const preSatData = useRef();
+    // const preSatData = useRef();
 
     const [map, setMap] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -44,13 +44,15 @@ function WorldMap(props) {
     //this triggers everytime when click on "Track on the map" with different selections
     useEffect(() => {
         const lastIndex = props.satData.length - 1;
-        //props.satData[lastIndex] is the latest selected satellite list
-        if (preSatData.current !== props.satData[lastIndex]) {
+        // if (preSatData.current !== props.satData[lastIndex]) {
+        if (props.satData.length !== 0) {
             const {latitude, longitude, elevation, duration} = props.observerData;
             const endTime = duration * 60;
+            console.log(endTime)
             setIsLoading(true);
 
             //urls are all promises
+            //props.satData[lastIndex] is the latest selected satellite list
             const urls = props.satData[lastIndex].map((sat) => {
                 const {satid} = sat;
                 const url = `${BASE_URL}/${SATELLITE_POSITION_URL}/${satid}/${latitude}/${longitude}/${elevation}/${endTime}/&apiKey=${SAT_API_KEY}`;
@@ -64,8 +66,6 @@ function WorldMap(props) {
                     //get satellite data (including its info and positions) and put them in the arr array
                     const arr = res.map(sat => sat.data);
                     // console.log(arr);
-                    setIsLoading(false);
-
                     if (!isDrawing) {
                         setIsDrawing(true);
                         track(arr);
@@ -77,10 +77,13 @@ function WorldMap(props) {
                 })
                 .catch((e) => {
                     console.log("err in fetch satellite position -> ", e.message);
+                })
+                .finally(() => {
+                    setIsLoading(false);
                 });
         }
-        preSatData.current = props.satData[lastIndex];//preSatData.current stores previous props
-    }, [props.satData[props.satData.length - 1], isDrawing, isLoading, map]);
+        // preSatData.current = props.satData[lastIndex];//preSatData.current stores previous props
+    }, [props.satData]);
 
     const track = (data) => {
         if (data.length === 0 || !data[0].hasOwnProperty("positions")) {
@@ -88,7 +91,7 @@ function WorldMap(props) {
         }
 
         const len = data[0].positions.length;
-        const { context2 } = map;
+        const {context2} = map;
 
         let now = new Date();
         console.log("now->" + now);
@@ -100,7 +103,7 @@ function WorldMap(props) {
             console.log(ct)
 
             let timePassed = i === 0 ? 0 : ct - now;
-            console.log("time passed ->"  + timePassed)
+            console.log("time passed ->" + timePassed)
             let time = new Date(now.getTime() + 60 * timePassed);
 
             //clear context
@@ -131,14 +134,14 @@ function WorldMap(props) {
 
     //draw satellite positions on the world mpa
     const drawSat = (sat, pos) => {
-        const { satlongitude, satlatitude } = pos;
+        const {satlongitude, satlatitude} = pos;
         //if there is longitude and latitude info, return
         if (!satlongitude || !satlatitude) return;
 
         const {satname} = sat;
         const nameWithNumber = satname.match(/\d+/g).join("");
 
-        const { projection, context2 } = map;
+        const {projection, context2} = map;
 
         //projects the satellite longitude and altitude to the [x, y] coordinates on the canvas
         const xy = projection([satlongitude, satlatitude]);
@@ -226,7 +229,7 @@ function WorldMap(props) {
             }
             <canvas className="map" ref={refMap}/>
             <canvas className="track" ref={refTrack}/>
-            <div className="hint" />
+            <div className="hint"/>
         </div>
     )
 }
