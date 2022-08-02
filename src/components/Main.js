@@ -4,6 +4,7 @@ import SatelliteList from "./SatelliteList";
 import {useRef, useState} from "react";
 import axios from "axios";
 import {BASE_URL, STARLINK_CATEGORY, NEARBY_SATELLITE, SAT_API_KEY} from "../constants";
+import WorldMap from "./WorldMap";
 
 //1. get setting information from SatSetting component
 //2. acquire satellite data from n2yo.com
@@ -65,10 +66,11 @@ function Main() {
                 <SatelliteList
                     satList={satList}
                     isLoading={isLoading}
+                    onShowMap={showMap}
                 />
             </Col>
             <Col span={16} className="right-side">
-                right
+                <WorldMap />
             </Col>
         </Row>
     )

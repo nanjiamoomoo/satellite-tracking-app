@@ -6,11 +6,11 @@ export const SatSetting = React.forwardRef( (props, ref) => {
     const formItemLayout = {
         labelCol: {
             xs: { span: 24 },
-            sm: { span: 11 },
+            sm: { span: 11},
         },
         wrapperCol: {
             xs: { span: 24 },
-            sm: { span: 13 },
+            sm: { span: 13},
         },
     };
 
@@ -21,7 +21,7 @@ export const SatSetting = React.forwardRef( (props, ref) => {
             className="sat-setting"
             onFinish={props.onShow}
         >
-
+            <Form.Item label="Latitude(degrees)">
                 <Form.Item
                     name="longitude"
                     noStyle
@@ -34,6 +34,7 @@ export const SatSetting = React.forwardRef( (props, ref) => {
                         placeholder="Please input Longitude"
                     />
                 </Form.Item>
+            </Form.Item>
 
 
             <Form.Item label="Latitude(degrees)">

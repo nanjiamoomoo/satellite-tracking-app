@@ -1,13 +1,33 @@
 import {Avatar, Button, Checkbox, List, Spin} from "antd";
 import satellite from "../assets/images/satellite.svg";
-import {useEffect} from "react";
+import {useState} from "react";
 
 //Display Satellites
 function SatelliteList(props) {
     const {isLoading} = props;
+    const [selected, setSelected] = useState([]);
 
-    const onChange = () => {
 
+    const onChange = (e) => {
+        const { satelliteDataInfo, checked } = e.target;
+        const satelliteList = addOrRemove(satelliteDataInfo, checked, selected);
+        setSelected(satelliteList);
+
+    }
+
+    const addOrRemove = (item, status, list) => {
+        const found = list.some( entry => entry.satid === item.satid);
+        if (status && !found) {
+            list = [...list, item];
+        }
+        if (!status && found) {
+            list = list.filter( entry => entry.satid !== item.satid)
+        }
+        return list;
+    }
+
+    const onShowSatMap = () => {
+        props.onShowMap(selected);
     }
 
     return (
@@ -16,6 +36,8 @@ function SatelliteList(props) {
                 <Button
                     className="sat-list-btn"
                     size="large"
+                    disabled={selected.length === 0}
+                    onClick={onShowSatMap}
                 >Track on the map</Button>
             </div>
             <hr/>
@@ -27,14 +49,15 @@ function SatelliteList(props) {
                     :
                     <List className="sat-list"
                           itemLayout="horizontal"
+                          size="small"
                           dataSource={props.satList}
                           renderItem={item => {
                               return (
                                   <List.Item
-                                      actions={[<Checkbox onChange={onChange} dataInfo={item}/>]}
+                                      actions={[<Checkbox onChange={onChange} satelliteDataInfo={item}/>]}
                                   >
                                       <List.Item.Meta
-                                          avatar={<Avatar src={satellite}/>}
+                                          avatar={<Avatar size={50} src={satellite}/>}
                                           title={<p>{item.satname}</p>}
                                           description={`Launch Date: ${item.launchDate}`}
                                       />
