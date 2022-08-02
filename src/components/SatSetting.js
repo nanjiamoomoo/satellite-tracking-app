@@ -1,43 +1,33 @@
-import React, {useRef} from "react";
-import {Form, InputNumber, Button, Space, Input} from "antd";
+import React from "react";
+import {Form, InputNumber, Button} from "antd";
 
-function SatSetting() {
-    const decoratedForm = useRef();
+//collect user input setting information
+export const SatSetting = React.forwardRef( (props, ref) => {
 
     const formItemLayout = {
         labelCol: {
             xs: { span: 24 },
-            sm: { span: 11 },
+            sm: { span: 11},
         },
         wrapperCol: {
             xs: { span: 24 },
-            sm: { span: 13 },
+            sm: { span: 13},
         },
     };
 
-    const showSatellite = (e) => {
-        console.log(decoratedForm.current);
-        // e.preventDefault();
-        //
-        // decoratedForm.current.validateFields((err, values) => {
-        //     if (!err) {
-        //         // console.log('Received values of form: ', values);
-        //     }
-        // })
-    }
-
     return (
         <Form
-            ref={decoratedForm}
+            ref={ref}
             {...formItemLayout}
             className="sat-setting"
-            onSubmit={showSatellite}
+            onFinish={props.onShow}
         >
-            <Form.Item label="Longitude(degrees)">
+            <Form.Item label="Latitude(degrees)">
                 <Form.Item
                     name="longitude"
                     noStyle
                     rules={[{required: true, message: 'Please input your Longitude!'}]}
+                    initialValue={70}
                 >
                     <InputNumber
                         min={-180} max={180}
@@ -47,11 +37,13 @@ function SatSetting() {
                 </Form.Item>
             </Form.Item>
 
+
             <Form.Item label="Latitude(degrees)">
                 <Form.Item
                     name="latitude"
                     noStyle
                     rules={[{required: true, message: 'Please input your Latitude!'}]}
+                    initialValue={-40}
                 >
                     <InputNumber
                         min={-90} max={90}
@@ -63,9 +55,10 @@ function SatSetting() {
 
             <Form.Item label="Elevation(meters)">
                 <Form.Item
-                    name="longitude"
+                    name="elevation"
                     noStyle
-                    rules={[{required: true, message: 'Please input your Longitude!'}]}
+                    rules={[{required: true, message: 'Please input your elevation!'}]}
+                    initialValue={100}
                 >
                     <InputNumber
                         min={-413} max={8850}
@@ -77,9 +70,10 @@ function SatSetting() {
 
             <Form.Item label="Altitude(degrees)">
                 <Form.Item
-                    name="longitude"
+                    name="altitude"
                     noStyle
-                    rules={[{required: true, message: 'Please input your Longitude!'}]}
+                    rules={[{required: true, message: 'Please input your Altitude!'}]}
+                    initialValue={90}
                 >
                     <InputNumber
                         min={0} max={90}
@@ -91,9 +85,10 @@ function SatSetting() {
 
             <Form.Item label="Duration(secs)">
                 <Form.Item
-                    name="longitude"
+                    name="duration"
                     noStyle
                     rules={[{required: true, message: 'Please input your Duration!'}]}
+                    initialValue={10}
                 >
                     <InputNumber
                         min={0} max={90}
@@ -116,6 +111,4 @@ function SatSetting() {
             </Form.Item>
         </Form>
     )
-}
-
-export default SatSetting;
+});

@@ -9,14 +9,14 @@
     text-align: center;
 }
 
-.sat-list {
-    height: 300px;
-    overflow: scroll;
-}
-
 .spin-box {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 335px;
+    height: 320px;
+}
+
+.sat-list {
+    height: 310px;
+    overflow: scroll;
 }
